@@ -1,0 +1,1137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8" />
+	<title>Nabuuma Sarah</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+	<style>
+		:root {
+			--bg: #020617;
+			--bg-alt: #050816;
+			--card: #020617;
+			--primary: #3b82f6;
+			--primary-soft: rgba(59, 130, 246, 0.18);
+			--accent: #22c55e;
+			--accent-soft: rgba(34, 197, 94, 0.18);
+			--text: #e5e7eb;
+			--muted: #9ca3af;
+			--border: #1f2937;
+			--radius: 16px;
+			--max-width: 1080px;
+		}
+
+		*,
+		*::before,
+		*::after {
+			box-sizing: border-box;
+		}
+
+		html,
+		body {
+			margin: 0;
+			padding: 0;
+		}
+
+		body {
+			min-height: 100vh;
+			background:
+				radial-gradient(circle at top left, rgba(59, 130, 246, 0.25), transparent 60%),
+				radial-gradient(circle at bottom right, rgba(16, 185, 129, 0.24), transparent 55%),
+				linear-gradient(135deg, #020617, #020617 40%, #030712 100%);
+			color: var(--text);
+			font-family: system-ui, -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI",
+				sans-serif;
+			line-height: 1.6;
+			-webkit-font-smoothing: antialiased;
+		}
+
+		a {
+			color: var(--primary);
+			text-decoration: none;
+		}
+
+		a:hover {
+			text-decoration: underline;
+		}
+
+		img {
+			max-width: 100%;
+			display: block;
+		}
+
+		/* Layout */
+
+		.page {
+			min-height: 100vh;
+			display: flex;
+			flex-direction: column;
+		}
+
+		header {
+			position: sticky;
+			top: 0;
+			z-index: 20;
+			border-bottom: 1px solid rgba(15, 23, 42, 0.9);
+			background:
+				linear-gradient(to right, rgba(15, 23, 42, 0.9), rgba(15, 23, 42, 0.75));
+			backdrop-filter: blur(18px);
+		}
+
+		.nav {
+			max-width: var(--max-width);
+			margin: 0 auto;
+			padding: 0.9rem 1.5rem;
+			display: flex;
+			align-items: center;
+			justify-content: space-between;
+			gap: 1.5rem;
+		}
+
+		.nav-left {
+			display: flex;
+			align-items: center;
+			gap: 0.85rem;
+		}
+
+		.nav-avatar {
+			width: 36px;
+			height: 36px;
+			border-radius: 999px;
+			border: 1px solid rgba(148, 163, 184, 0.6);
+			background:
+				conic-gradient(from 210deg, #3b82f6, #22c55e, #a855f7, #3b82f6);
+			position: relative;
+			overflow: hidden;
+		}
+
+		.nav-avatar-inner {
+			position: absolute;
+			inset: 2px;
+			border-radius: inherit;
+			background:
+				radial-gradient(circle at 30% 0, #22c55e, #111827 55%, #020617 100%);
+		}
+
+		.nav-meta {
+			display: flex;
+			flex-direction: column;
+			gap: 0.1rem;
+		}
+
+		.nav-name {
+			font-weight: 600;
+			font-size: 0.95rem;
+		}
+
+		.nav-role {
+			font-size: 0.78rem;
+			color: var(--muted);
+		}
+
+		.nav-links {
+			display: flex;
+			align-items: center;
+			gap: 1.2rem;
+			font-size: 0.86rem;
+		}
+
+		.nav-links a {
+			color: var(--muted);
+			position: relative;
+		}
+
+		.nav-links a::after {
+			content: "";
+			position: absolute;
+			left: 0;
+			bottom: -0.25rem;
+			width: 0;
+			height: 1px;
+			background: linear-gradient(90deg, var(--primary), var(--accent));
+			transition: width 0.18s ease;
+		}
+
+		.nav-links a:hover {
+			color: #f9fafb;
+		}
+
+		.nav-links a:hover::after {
+			width: 100%;
+		}
+
+		.nav-cta {
+			padding: 0.45rem 0.95rem;
+			border-radius: 999px;
+			border: 1px solid rgba(34, 197, 94, 0.7);
+			background:
+				linear-gradient(135deg, rgba(34, 197, 94, 0.18), rgba(21, 128, 61, 0.35));
+			color: #ecfdf5;
+			font-size: 0.85rem;
+			display: inline-flex;
+			align-items: center;
+			gap: 0.4rem;
+			box-shadow: 0 12px 30px rgba(22, 163, 74, 0.3);
+		}
+
+		.nav-cta span:first-child {
+			font-size: 1rem;
+		}
+
+		main {
+			flex: 1;
+		}
+
+		.section {
+			max-width: var(--max-width);
+			margin: 0 auto;
+			padding: 3.5rem 1.5rem;
+		}
+
+		.section + .section {
+			border-top: 1px solid rgba(15, 23, 42, 0.9);
+		}
+
+		.section-label {
+			font-size: 0.82rem;
+			text-transform: uppercase;
+			letter-spacing: 0.22em;
+			color: var(--muted);
+			margin-bottom: 1.5rem;
+		}
+
+		.section-heading {
+			font-size: 1.4rem;
+			margin: 0 0 1rem;
+		}
+
+		.section-intro {
+			max-width: 40rem;
+			font-size: 0.95rem;
+			color: var(--muted);
+			margin-bottom: 2rem;
+		}
+
+		/* Hero */
+
+		.hero {
+			display: grid;
+			grid-template-columns: minmax(0, 3fr) minmax(0, 2.4fr);
+			gap: 3rem;
+			align-items: center;
+			padding-top: 3.5rem;
+		}
+
+		.hero-kicker {
+			font-size: 0.82rem;
+			text-transform: uppercase;
+			letter-spacing: 0.22em;
+			color: var(--muted);
+			margin-bottom: 0.9rem;
+		}
+
+		.hero-title {
+			font-size: clamp(2.4rem, 4.2vw, 3.1rem);
+			font-weight: 650;
+			margin: 0 0 1rem;
+			letter-spacing: 0.02em;
+		}
+
+		.hero-title span.highlight {
+			background: linear-gradient(120deg, #3b82f6, #22c55e);
+			-webkit-background-clip: text;
+			color: transparent;
+		}
+
+		.hero-subtitle {
+			font-size: 1rem;
+			color: var(--muted);
+			max-width: 36rem;
+			margin-bottom: 1.5rem;
+		}
+
+		.hero-meta {
+			display: flex;
+			flex-wrap: wrap;
+			gap: 1.1rem;
+			font-size: 0.85rem;
+			color: var(--muted);
+			margin-bottom: 1.6rem;
+		}
+
+		.hero-meta span strong {
+			color: #f9fafb;
+		}
+
+		.hero-actions {
+			display: flex;
+			flex-wrap: wrap;
+			gap: 0.8rem;
+		}
+
+		.btn-primary,
+		.btn-ghost {
+			border-radius: 999px;
+			font-size: 0.9rem;
+			padding: 0.65rem 1.25rem;
+			border: 1px solid transparent;
+			display: inline-flex;
+			align-items: center;
+			gap: 0.45rem;
+			cursor: pointer;
+			transition:
+				transform 0.12s ease,
+				box-shadow 0.12s ease,
+				background 0.12s ease,
+				border-color 0.12s ease;
+		}
+
+		.btn-primary {
+			background: radial-gradient(circle at top left, #60a5fa, #3b82f6 55%, #1d4ed8);
+			border-color: #3b82f6;
+			color: #eff6ff;
+			box-shadow: 0 18px 40px rgba(37, 99, 235, 0.4);
+		}
+
+		.btn-primary:hover {
+			transform: translateY(-1px);
+			box-shadow: 0 24px 55px rgba(37, 99, 235, 0.55);
+		}
+
+		.btn-ghost {
+			background: rgba(15, 23, 42, 0.7);
+			border-color: rgba(55, 65, 81, 0.9);
+			color: var(--muted);
+		}
+
+		.btn-ghost:hover {
+			background: rgba(31, 41, 55, 0.95);
+			color: #e5e7eb;
+		}
+
+		.hero-right {
+			display: flex;
+			flex-direction: column;
+			gap: 1rem;
+		}
+
+		.hero-card {
+			background:
+				radial-gradient(circle at top right, rgba(59, 130, 246, 0.35), transparent 60%),
+				radial-gradient(circle at bottom left, rgba(34, 197, 94, 0.3), transparent 55%),
+				linear-gradient(145deg, #020617, #020617 35%, #030712 100%);
+			border-radius: 1.2rem;
+			border: 1px solid rgba(37, 99, 235, 0.4);
+			padding: 1.5rem 1.6rem;
+			box-shadow:
+				0 30px 80px rgba(15, 23, 42, 0.85),
+				0 0 0 1px rgba(15, 23, 42, 0.9);
+		}
+
+		.hero-highlight {
+			display: inline-flex;
+			align-items: center;
+			gap: 0.5rem;
+			padding: 0.3rem 0.8rem;
+			border-radius: 999px;
+			background:
+				linear-gradient(120deg, rgba(59, 130, 246, 0.25), rgba(34, 197, 94, 0.25));
+			border: 1px solid rgba(148, 163, 184, 0.7);
+			font-size: 0.8rem;
+			color: #e5e7eb;
+		}
+
+		.hero-dot {
+			width: 9px;
+			height: 9px;
+			border-radius: 999px;
+			background: var(--accent);
+			box-shadow: 0 0 15px rgba(34, 197, 94, 0.9);
+		}
+
+		.hero-tagline {
+			margin-top: 0.85rem;
+			font-size: 0.9rem;
+			color: var(--muted);
+		}
+
+		.hero-pills {
+			display: flex;
+			flex-wrap: wrap;
+			gap: 0.4rem;
+			margin-top: 0.9rem;
+		}
+
+		.pill {
+			font-size: 0.76rem;
+			padding: 0.25rem 0.6rem;
+			border-radius: 999px;
+			background: rgba(15, 23, 42, 0.9);
+			border: 1px solid rgba(55, 65, 81, 0.9);
+			color: #e5e7eb;
+		}
+
+		.hero-stats {
+			display: grid;
+			grid-template-columns: repeat(3, minmax(0, 1fr));
+			gap: 0.85rem;
+			margin-top: 1.1rem;
+			font-size: 0.8rem;
+			color: var(--muted);
+		}
+
+		.hero-stat strong {
+			display: block;
+			font-size: 1.1rem;
+			color: #f9fafb;
+		}
+
+		/* Projects */
+
+		.projects-grid {
+			display: grid;
+			grid-template-columns: repeat(3, minmax(0, 1fr));
+			gap: 1.4rem;
+		}
+
+		.project-card {
+			position: relative;
+			overflow: hidden;
+			border-radius: var(--radius);
+			background:
+				radial-gradient(circle at top left, rgba(59, 130, 246, 0.12), transparent 55%),
+				radial-gradient(circle at bottom right, rgba(15, 23, 42, 0.9), #020617);
+			border: 1px solid rgba(31, 41, 55, 0.95);
+			padding: 1.15rem 1.15rem 1.2rem;
+			display: flex;
+			flex-direction: column;
+			gap: 0.65rem;
+			box-shadow: 0 22px 55px rgba(15, 23, 42, 0.95);
+		}
+
+		.project-chip {
+			position: absolute;
+			top: 0.85rem;
+			right: 0.9rem;
+			font-size: 0.7rem;
+			text-transform: uppercase;
+			letter-spacing: 0.14em;
+			color: var(--muted);
+			padding: 0.12rem 0.5rem;
+			border-radius: 999px;
+			border: 1px solid rgba(55, 65, 81, 0.9);
+			background: rgba(15, 23, 42, 0.95);
+			backdrop-filter: blur(10px);
+		}
+
+		.project-title {
+			font-weight: 550;
+			font-size: 1.0rem;
+			margin-right: 4.5rem;
+		}
+
+		.project-desc {
+			font-size: 0.86rem;
+			color: var(--muted);
+		}
+
+		.project-meta {
+			display: flex;
+			flex-wrap: wrap;
+			gap: 0.45rem;
+			margin-top: 0.3rem;
+		}
+
+		.badge {
+			font-size: 0.72rem;
+			padding: 0.18rem 0.5rem;
+			border-radius: 999px;
+			border: 1px solid rgba(55, 65, 81, 1);
+			color: #e5e7eb;
+			background: rgba(15, 23, 42, 0.9);
+		}
+
+		.stack-tags {
+			display: flex;
+			flex-wrap: wrap;
+			gap: 0.28rem;
+			margin-top: 0.25rem;
+		}
+
+		.stack-tag {
+			font-size: 0.7rem;
+			padding: 0.18rem 0.45rem;
+			border-radius: 999px;
+			background: rgba(15, 23, 42, 0.9);
+			border: 1px solid rgba(31, 41, 55, 0.9);
+			color: var(--muted);
+		}
+
+		.project-footer {
+			margin-top: 0.75rem;
+			display: flex;
+			justify-content: space-between;
+			align-items: center;
+			font-size: 0.78rem;
+			color: var(--muted);
+		}
+
+		.project-links {
+			display: flex;
+			gap: 0.65rem;
+		}
+
+		.project-links a {
+			display: inline-flex;
+			align-items: center;
+			gap: 0.25rem;
+			font-size: 0.78rem;
+			color: #e5e7eb;
+		}
+
+		.project-links a span.icon {
+			font-size: 0.9rem;
+			color: var(--primary);
+		}
+
+		/* Skills */
+
+		.skills-layout {
+			display: grid;
+			grid-template-columns: 2fr 3fr;
+			gap: 2.5rem;
+		}
+
+		.skills-card {
+			border-radius: var(--radius);
+			background:
+				radial-gradient(circle at top right, rgba(34, 197, 94, 0.2), transparent 55%),
+				radial-gradient(circle at bottom left, rgba(59, 130, 246, 0.18), transparent 55%),
+				linear-gradient(135deg, #020617, #030712);
+			border: 1px solid rgba(31, 41, 55, 0.95);
+			padding: 1.4rem 1.4rem 1.5rem;
+			box-shadow: 0 24px 65px rgba(15, 23, 42, 0.95);
+		}
+
+		.skills-card h3 {
+			margin: 0 0 0.6rem;
+			font-size: 1rem;
+		}
+
+		.skills-card p {
+			font-size: 0.87rem;
+			color: var(--muted);
+			margin: 0;
+		}
+
+		.skills-list {
+			display: grid;
+			grid-template-columns: repeat(2, minmax(0, 1fr));
+			gap: 1.1rem;
+			font-size: 0.87rem;
+		}
+
+		.skills-list h4 {
+			margin: 0 0 0.35rem;
+			font-size: 0.9rem;
+		}
+
+		.skills-list ul {
+			margin: 0;
+			padding-left: 1rem;
+			color: var(--muted);
+		}
+
+		.skills-list li {
+			margin-bottom: 0.15rem;
+		}
+
+		/* Experience */
+
+		.timeline {
+			border-left: 1px solid rgba(31, 41, 55, 0.9);
+			margin-left: 0.4rem;
+			padding-left: 1.6rem;
+			display: grid;
+			gap: 1.6rem;
+		}
+
+		.timeline-item {
+			position: relative;
+		}
+
+		.timeline-dot {
+			position: absolute;
+			left: -1.95rem;
+			top: 0.25rem;
+			width: 11px;
+			height: 11px;
+			border-radius: 999px;
+			background: var(--primary);
+			box-shadow: 0 0 0 5px rgba(37, 99, 235, 0.45);
+		}
+
+		.timeline-header {
+			display: flex;
+			justify-content: space-between;
+			gap: 1rem;
+			align-items: baseline;
+		}
+
+		.timeline-role {
+			font-weight: 550;
+			font-size: 0.98rem;
+		}
+
+		.timeline-company {
+			color: var(--muted);
+			font-size: 0.85rem;
+		}
+
+		.timeline-meta {
+			font-size: 0.8rem;
+			color: var(--muted);
+			text-align: right;
+		}
+
+		.timeline-body {
+			margin-top: 0.4rem;
+			font-size: 0.86rem;
+			color: var(--muted);
+		}
+
+		.timeline-body ul {
+			margin: 0.45rem 0 0;
+			padding-left: 1.1rem;
+		}
+
+		/* Contact */
+
+		.contact-grid {
+			display: grid;
+			grid-template-columns: 2fr 3fr;
+			gap: 2.3rem;
+		}
+
+		.contact-card {
+			border-radius: var(--radius);
+			background:
+				radial-gradient(circle at top left, rgba(59, 130, 246, 0.18), transparent 55%),
+				linear-gradient(145deg, #020617, #020617 40%, #030712 100%);
+			border: 1px solid rgba(31, 41, 55, 0.95);
+			padding: 1.5rem 1.5rem 1.6rem;
+			box-shadow: 0 24px 75px rgba(15, 23, 42, 0.95);
+		}
+
+		.contact-card h3 {
+			margin: 0 0 0.5rem;
+			font-size: 1rem;
+		}
+
+		.contact-card p {
+			margin: 0 0 1.1rem;
+			font-size: 0.9rem;
+			color: var(--muted);
+		}
+
+		.contact-rows {
+			display: grid;
+			gap: 0.7rem;
+			font-size: 0.88rem;
+		}
+
+		.contact-row {
+			display: flex;
+			justify-content: space-between;
+			align-items: center;
+			gap: 1rem;
+			border-radius: 999px;
+			background: rgba(15, 23, 42, 0.9);
+			border: 1px solid rgba(31, 41, 55, 0.95);
+			padding: 0.5rem 0.9rem;
+		}
+
+		.contact-row span.label {
+			color: var(--muted);
+			font-size: 0.8rem;
+			text-transform: uppercase;
+			letter-spacing: 0.15em;
+		}
+
+		.contact-row span.value {
+			color: #e5e7eb;
+			font-size: 0.86rem;
+		}
+
+		.contact-links {
+			display: flex;
+			flex-wrap: wrap;
+			gap: 0.6rem;
+			font-size: 0.84rem;
+		}
+
+		.contact-pill {
+			display: inline-flex;
+			align-items: center;
+			gap: 0.35rem;
+			padding: 0.4rem 0.75rem;
+			border-radius: 999px;
+			border: 1px solid rgba(31, 41, 55, 0.95);
+			background: rgba(15, 23, 42, 0.9);
+			color: #e5e7eb;
+		}
+
+		/* Footer */
+
+		footer {
+			border-top: 1px solid rgba(15, 23, 42, 0.95);
+			padding: 1.6rem 1.5rem 2.1rem;
+			font-size: 0.8rem;
+			color: var(--muted);
+			background: radial-gradient(circle at top, rgba(15, 23, 42, 0.96), #020617);
+		}
+
+		.footer-inner {
+			max-width: var(--max-width);
+			margin: 0 auto;
+			display: flex;
+			justify-content: space-between;
+			align-items: center;
+			gap: 1rem;
+		}
+
+		.footer-links {
+			display: flex;
+			gap: 0.9rem;
+		}
+
+		/* Responsive */
+
+		@media (max-width: 960px) {
+			.hero {
+				grid-template-columns: minmax(0, 1fr);
+				padding-top: 3rem;
+			}
+
+			.hero-right {
+				order: -1;
+			}
+
+			.projects-grid {
+				grid-template-columns: repeat(2, minmax(0, 1fr));
+			}
+
+			.skills-layout,
+			.contact-grid {
+				grid-template-columns: 1fr;
+			}
+		}
+
+		@media (max-width: 720px) {
+			.nav-links {
+				display: none;
+			}
+
+			.section {
+				padding: 2.6rem 1.4rem;
+			}
+
+			.hero {
+				padding-top: 2.4rem;
+			}
+
+			.projects-grid {
+				grid-template-columns: 1fr;
+			}
+
+			.footer-inner {
+				flex-direction: column;
+				align-items: flex-start;
+			}
+		}
+	</style>
+</head>
+<body>
+	<div class="page">
+		<header>
+			<nav class="nav">
+				<div class="nav-left">
+					<div class="nav-avatar">
+						<div class="nav-avatar-inner"></div>
+					</div>
+					<div class="nav-meta">
+						<div class="nav-name">Nabuuma Sarah</div>
+						<div class="nav-role">Software Engineer | IT Support Specialist</div>
+					</div>
+				</div>
+				<div class="nav-links">
+					<a href="#about">About</a>
+					<a href="#projects">Projects</a>
+					<a href="#skills">Skills</a>
+					<a href="#experience">Experience</a>
+					<a href="#contact">Contact</a>
+					<a href="#contact" class="nav-cta">
+						<span>●</span>
+						<span>Available for opportunities</span>
+					</a>
+				</div>
+			</nav>
+		</header>
+
+		<main>
+			<!-- Hero -->
+			<section class="section hero" id="about">
+				<div>
+					<div class="hero-kicker">Full stack software Engineer</div>
+					<h1 class="hero-title">
+						Crafting reliable, scalable
+						<span class="highlight">software systems</span>.
+					</h1>
+					<p class="hero-subtitle">
+						I am a Software engineer with experience building production-ready web applications,
+						AI powered chatbots, and data-heavy dashboards. Focused on developer experience,
+						performance, and clean, maintainable code.
+					</p>
+					<div class="hero-meta">
+						<span><strong>Location:</strong> Gayaza-Wakiso, Uganda</span>
+						<span><strong>Focus:</strong> JavaScript · React · Node.js · MongoDB</span>
+						<span><strong>Open to:</strong> Full-time · Remote jobs</span>
+					</div>
+					<div class="hero-actions">
+						<a href="mailto:nabuumasarah30@gmail.com" class="btn-primary">
+							<span>✉</span>
+							<span>Contact me</span>
+						</a>
+						<a href="#projects" class="btn-ghost">View selected projects</a>
+					</div>
+				</div>
+				<div class="hero-right">
+					<div class="hero-card">
+						<div class="hero-highlight">
+							<span class="hero-dot"></span>
+							<span>Delivering pragmatic engineering solutions</span>
+						</div>
+						<p class="hero-tagline">
+							I design and implement systems that are pleasant to work with today and
+							easy to evolve tomorrow.
+						</p>
+						<div class="hero-pills">
+							<span class="pill">JavaScript</span>
+							<span class="pill">React · Next.js</span>
+							<span class="pill">Node.js · Express</span>
+							<span class="pill">MongoDB</span>
+							<span class="pill">HTML5 · CSS3</span>
+							<span class="pill">RESTful APIs</span>
+						</div>
+						<div class="hero-stats">
+							<div class="hero-stat">
+								<strong>2+</strong>
+								<span>Years experience</span>
+							</div>
+							<div class="hero-stat">
+								<strong>3+</strong>
+								<span>Deployed projects</span>
+							</div>
+							<div class="hero-stat">
+								<strong>100%</strong>
+								<span>Project completion</span>
+							</div>
+						</div>
+					</div>
+				</div>
+			</section>
+
+			<!-- Projects -->
+			<section class="section" id="projects">
+				<div class="section-label">Selected projects</div>
+				<h2 class="section-heading">Projects that demonstrate my capabilities</h2>
+				<p class="section-intro">
+					A curated selection of work across web platforms, internal tools, and
+					developer-focused products. More projects and code samples are available upon
+					request or on GitHub.
+				</p>
+
+				<div class="projects-grid">
+					<!-- Project 1 -->
+					<article class="project-card">
+						<div class="project-chip">Ai-powered Chatbot system</div>
+						<h3 class="project-title">BUchatbot</h3>
+						<p class="project-desc">
+							Developed a full stack AI-powered chatbot for Bugema University to streamline student and staff inquiries, reducing information-seeking time. Integrated Gemini API with a curated university knowledge base for accurate, institution-approved responses.
+						</p>
+						<div class="project-meta">
+							<span class="badge">AI Integration</span>
+							<span class="badge">Admin Panel</span>
+							<span class="badge">Production</span>
+						</div>
+						<div class="stack-tags">
+							<span class="stack-tag">React.js</span>
+							<span class="stack-tag">Node.js</span>
+							<span class="stack-tag">Express.js</span>
+							<span class="stack-tag">MongoDB</span>
+							<span class="stack-tag">Gemini API</span>
+							<span class="stack-tag">Vercel</span>
+						</div>
+						<div class="project-footer">
+							<div>Reduced student waiting time for administrative responses</div>
+							<div class="project-links">
+								<a href="https://bu-ch-atbot.vercel.app/" target="_blank" rel="noreferrer">
+									<span class="icon">↗</span><span>Live demo</span>
+								</a>
+								<a href="https://github.com/licklebandit/BU_chAtbot.git" target="_blank" rel="noreferrer">
+									<span class="icon">📁</span><span>GitHub</span>
+								</a>
+							</div>
+						</div>
+					</article>
+
+					<!-- Project 2 -->
+					<article class="project-card">
+						<div class="project-chip">School management system</div>
+						<h3 class="project-title">Light College Katikamu SMS</h3>
+						<p class="project-desc">
+							Developed a comprehensive collaborative task and student management system with role-based access control (RBAC). Features real-time updates and data visualization dashboard for tracking academic progress.
+						</p>
+						<div class="project-meta">
+							<span class="badge">Full SMS</span>
+							<span class="badge">Role-based Access</span>
+							<span class="badge">Real-time</span>
+						</div>
+						<div class="stack-tags">
+							<span class="stack-tag">React.js</span>
+							<span class="stack-tag">Node.js</span>
+							<span class="stack-tag">MongoDB</span>
+							<span class="stack-tag">Express.js</span>
+						</div>
+						<div class="project-footer">
+							<div>Centralized school management system</div>
+							<div class="project-links">
+								<a href="https://light-college-katikamu.vercel.app/" target="_blank" rel="noreferrer">
+									<span class="icon">↗</span><span>Live demo</span>
+								</a>
+								<a href="https://github.com/licklebandit/Light-college-katikamu.git" target="_blank" rel="noreferrer">
+									<span class="icon">📁</span><span>GitHub</span>
+								</a>
+							</div>
+						</div>
+					</article>
+
+					<!-- Project 3 -->
+					<article class="project-card">
+						<div class="project-chip">E-commerce platform</div>
+						<h3 class="project-title">CRS Online Store</h3>
+						<p class="project-desc">
+							Built a secure full stack e-commerce website with JWT-based authentication & authorization. Features robust admin panel for inventory, order, and user management with validated form handling.
+						</p>
+						<div class="project-meta">
+							<span class="badge">E-commerce</span>
+							<span class="badge">JWT Auth</span>
+							<span class="badge">Admin Panel</span>
+						</div>
+						<div class="stack-tags">
+							<span class="stack-tag">React.js</span>
+							<span class="stack-tag">Node.js</span>
+							<span class="stack-tag">Express.js</span>
+							<span class="stack-tag">MongoDB</span>
+							<span class="stack-tag">JWT</span>
+						</div>
+						<div class="project-footer">
+							<div>Secure e-commerce platform</div>
+							<div class="project-links">
+								<a href="https://don-do-low-uafz.vercel.app/" target="_blank" rel="noreferrer">
+									<span class="icon">↗</span><span>Live demo</span>
+								</a>
+								<a href="https://github.com/licklebandit/Don-do-low.git" target="_blank" rel="noreferrer">
+									<span class="icon">📁</span><span>GitHub</span>
+								</a>
+							</div>
+						</div>
+					</article>
+				</div>
+			</section>
+
+			<!-- Skills -->
+			<section class="section" id="skills">
+				<div class="section-label">Skills</div>
+					<h2 class="section-heading">Technical depth with product sensibility</h2>
+					<p class="section-intro">
+						Comfortable working across the stack, from data modeling and backend APIs to
+						frontend implementation and collaborating closely with design and product.
+					</p>
+
+					<div class="skills-layout">
+						<div class="skills-card">
+							<h3>How I work</h3>
+							<p>
+								I favor clear interfaces, small iterative releases, and thoughtful
+								abstractions. I enjoy pairing with teammates, writing design docs before
+								major changes, and leaving codebases in a better state than I found them.
+							</p>
+						</div>
+						<div class="skills-list">
+							<div>
+								<h4>Languages & Runtime</h4>
+								<ul>
+									<li>JavaScript (ES6+)</li>
+                  <li>TypeScript</li>
+									<li>Node.js</li>
+									<li>HTML5, CSS3</li>
+                  <li>PostgreSQL</li>
+								</ul>
+							</div>
+							<div>
+								<h4>Frontend</h4>
+								<ul>
+									<li>React.js, Next.js</li>
+									<li>Responsive Web Design</li>
+									<li>UI/UX Implementation</li>
+								</ul>
+							</div>
+							<div>
+								<h4>Backend & Data</h4>
+								<ul>
+									<li>RESTful API Development</li>
+									<li>MongoDB, Database Design</li>
+									<li>Express.js, Server-side Logic</li>
+								</ul>
+							</div>
+							<div>
+								<h4>Tools & Practices</h4>
+								<ul>
+									<li>Git, GitHub, CI/CD</li>
+									<li>Vercel, Render Deployment</li>
+									<li>Agile Development</li>
+								</ul>
+							</div>
+						</div>
+					</div>
+			</section>
+
+			<!-- Experience -->
+			<section class="section" id="experience">
+				<div class="section-label">Experience</div>
+				<h2 class="section-heading">Professional background</h2>
+
+				<div class="timeline">
+					<article class="timeline-item">
+						<div class="timeline-dot"></div>
+						<div class="timeline-header">
+							<div>
+								<div class="timeline-role">IT Support Personnel</div>
+								<div class="timeline-company">Bugema University · Full-time</div>
+							</div>
+							<div class="timeline-meta">
+								<div>May 2023 – Present</div>
+								<div>Wakiso, Uganda</div>
+							</div>
+						</div>
+						<div class="timeline-body">
+							<ul>
+								<li>Provide comprehensive technical support to faculty and staff, resolving hardware and software issues</li>
+								<li>Manage and maintain digital records and databases, ensuring data integrity and accessibility</li>
+								<li>Coordinate IT team members to streamline support operations and improve response times</li>
+								<li>Create and maintain technical documentation for IT procedures and user guides</li>
+								<li>Assist in implementation and maintenance of university information systems</li>
+							</ul>
+						</div>
+					</article>
+
+					<article class="timeline-item">
+						<div class="timeline-dot"></div>
+						<div class="timeline-header">
+							<div>
+								<div class="timeline-role">Software Development Projects</div>
+								<div class="timeline-company">Freelance & Academic Projects</div>
+							</div>
+							<div class="timeline-meta">
+								<div>2022 – Present</div>
+								<div>Remote</div>
+							</div>
+						</div>
+						<div class="timeline-body">
+							<ul>
+								<li>Developed AI-powered chatbot for Bugema University using React, Node.js, and MongoDB</li>
+								<li>Built school management system for Light College Katikamu with role-based access control</li>
+								<li>Created e-commerce platform with JWT authentication and admin management panel</li>
+								<li>Implemented modern CI/CD practices with Vercel and Render deployment</li>
+							</ul>
+						</div>
+					</article>
+				</div>
+			</section>
+
+			<!-- Contact -->
+			<section class="section" id="contact">
+				<div class="section-label">Contact</div>
+				<h2 class="section-heading">Let's work together</h2>
+				<p class="section-intro">
+					If you are interested in collaborating or discussing a role, the fastest way to
+					reach me is via email. I am happy to share additional code samples, design docs,
+					or references upon request.
+				</p>
+
+				<div class="contact-grid">
+					<div class="contact-card">
+						<h3>Get in touch</h3>
+						<p>
+							For roles, consulting, or open source collaboration, feel free to reach
+							out with a short note about what you are building and how I could help.
+						</p>
+						<div class="contact-rows">
+							<div class="contact-row">
+								<span class="label">Email</span>
+								<span class="value">nabuumasarah30@gmail.com</span>
+							</div>
+							<div class="contact-row">
+								<span class="label">Phone</span>
+								<span class="value">+256 760156635</span>
+							</div>
+							<div class="contact-row">
+								<span class="label">Location</span>
+								<span class="value">Gayaza-Wakiso, Uganda</span>
+							</div>
+							<div class="contact-row">
+								<span class="label">Status</span>
+								<span class="value">Open to opportunities</span>
+							</div>
+						</div>
+					</div>
+					<div>
+						<div class="contact-links">
+							<a href="https://github.com/licklebandit" target="_blank" rel="noreferrer" class="contact-pill">
+								<span>GitHub</span>
+								<span>→</span>
+							</a>
+							<a href="mailto:nabuumasarah30@gmail.com" class="contact-pill">
+								<span>Email</span>
+								<span>→</span>
+							</a>
+							<a href="#" target="_blank" rel="noreferrer" class="contact-pill">
+								<span>Download CV (PDF)</span>
+								<span>↓</span>
+							</a>
+						</div>
+						<p style="margin-top: 1.3rem; font-size: 0.88rem; color: #9ca3af;">
+							Typically responds within 1-2 business days. Please include role details,
+							team size, and timelines if reaching out about a position.
+						</p>
+					</div>
+				</div>
+			</section>
+		</main>
+
+		<footer>
+			<div class="footer-inner">
+				<div>© <span id="year"></span> Nabuuma Sarah. All rights reserved.</div>
+				<div class="footer-links">
+					<span>Let's connect</span>
+					<span></span>
+				</div>
+			</div>
+		</footer>
+	</div>
+
+	<script>
+		document.getElementById("year").textContent = new Date().getFullYear();
+	</script>
+</body>
+</html>
